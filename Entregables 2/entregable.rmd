@@ -21,16 +21,17 @@ library(cluster)
 
 ```{r}
 df <- read.csv("retail.csv")
+df <- scale(log(df))
 head(df)
 ```
 
 ```{r}
 fviz_nbclust(df, kmeans, method = "wss") +
-geom_vline(xintercept = 4, linetype = 2)
+geom_vline(xintercept = 7, linetype = 2)
 ```
 
 ```{r}
-km.res <- kmeans(df, 4, nstart = 25)
+km.res <- kmeans(df, 6, nstart = 25)
 aggregate(df, by=list(cluster=km.res$cluster), mean)
 dd <- cbind(df, cluster = km.res$cluster)
 fviz_cluster(km.res, data = df)
